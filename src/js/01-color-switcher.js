@@ -9,24 +9,33 @@ const refs = {
 let timerID = null;
 let colorActive = false;
 
-refs.startBtn.addEventListener('click', changeColor);
+refs.stopBtn.disabled = true;
+refs.startBtn.disabled = false;
+
+refs.startBtn.addEventListener('click', changeBackGroundColor);
 refs.stopBtn.addEventListener('click', stopColor);
 
 function stopColor(evt) {
 
     colorActive = false;
+    changeBtnState();
+
     clearInterval(timerID);
 }
 
-function changeColor(evt) {
-    if (colorActive) {
-        return;
-    }
+function changeBackGroundColor(evt) {
 
-    colorActive = true;
+    changeBtnState();
+    
     timerID = setInterval(() => {
         refs.window.style.backgroundColor = getRandomHexColor();
     }, 1000);
+}
+
+
+function changeBtnState() {
+    refs.stopBtn.disabled = !refs.stopBtn.disabled;
+    refs.startBtn.disabled = !refs.startBtn.disabled;
 }
 
 function getRandomHexColor() {

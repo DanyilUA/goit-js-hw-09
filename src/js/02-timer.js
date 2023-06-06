@@ -7,10 +7,10 @@ const dayEl = document.querySelector('span[data-days]');
 const hourEl = document.querySelector('span[data-hours]');
 const minuteEl = document.querySelector('span[data-minutes]');
 const secondEl = document.querySelector('span[data-seconds]');
+const inputEl = document.querySelector('input[id="datetime-picker"]');
 
 
-let isActive = false;
-
+buttonStart.disabled = true;
 
 const dateTimePicker = flatpickr("#datetime-picker", {
     enableTime: true,
@@ -18,13 +18,14 @@ const dateTimePicker = flatpickr("#datetime-picker", {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
+        buttonStart.disabled = false;
 
         const userDate = selectedDates[0].getTime();
         const currentDate = Date.now();
 
         if (currentDate > userDate) {
-        Notiflix.Notify.failure('Please choose a date in the future');
-        buttonStart.disabled = true;
+            Notiflix.Notify.failure('Please choose a date in the future');
+            buttonStart.disabled = true;
         } else {
             buttonStart.disabled = false;
         }
@@ -56,10 +57,7 @@ function addLeadingZero(value) {
 
 function updateTime() {
     const chosenDate = dateTimePicker.selectedDates[0].getTime();
-            if (isActive) {
-                return;
-            }
-    isActive = true;
+
     const timerID = setInterval(() => {
 
             const currentDate = new Date();
@@ -84,6 +82,10 @@ function updateTime() {
 }
 
 buttonStart.addEventListener('click', () => {
-updateTime();
+    updateTime();
+    buttonStart.disabled = true;
+    inputEl.disabled = true;
+
+
 });
 

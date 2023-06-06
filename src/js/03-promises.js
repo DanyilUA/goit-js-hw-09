@@ -7,23 +7,24 @@ function onStart(evt) {
   evt.preventDefault();
 
   const { delay, step, amount } = formEl.elements;
-
   const stepEl = Number(step.value);
   const delayEl = Number(delay.value);
-  const amountEl = Number(amount.value);
-
-
+  const amountEl = Number(amount.value);    
   
+   
   for (let i = 1; i <= amountEl; i += 1) {
     
-createPromise(amountEl, delayEl)
+    let position = i;
+    const currentDelay = delayEl + (i - 1) * stepEl;
+
+
+createPromise(position, currentDelay)
   .then(({ position, delay }) => {
     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
   })
   .catch(({ position, delay }) => {
     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
   });
-
   }
 }
 
@@ -41,6 +42,6 @@ function createPromise(position, delay) {
         reject({ position, delay });
       }
     }, delay);
-  }
+    }
   )
 }
